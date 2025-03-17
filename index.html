@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crab Jump</title>
+    <style>
+#phone-container {
+    position: relative;
+    width: 450px;
+    height: 700px;
+    background-image: url('https://i.ibb.co/wh9YB8xp/Phone2.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 0;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffdbeb;
+    background-image: url('https://i.ibb.co/q3tMnBJd/IMG-1381.jpg');
+    background-size: cover;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: auto;
+    padding: 20px;
+}
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    z-index: -1;
+}
+#game-container {
+    position: relative;
+    width: 340.2px;
+    height: 468px;
+    border: none;
+    background-color: #87ceeb;
+    overflow: hidden;
+    margin-top: -7px;
+    transform: translate(3.6px, 0px);
+    transition: background-color 3s ease-in-out;
+}
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px black;
+            z-index: 10;
+        }
+
+        .platform {
+    position: absolute;
+    width: 70px;
+    height: 12px;
+    background-color: #ff69b4;
+    border-radius: 5px;
+    z-index: 2;
+}
+
+#player {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-image: url('https://i.postimg.cc/fT7L2PCg/Crab.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: none; 
+    z-index: 5;
+}
+
+#intro-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.ibb.co/PZnKy5FX/background.png');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    z-index: 1;
+    display: none;
+    top: 0; 
+}
+
+.star {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    background-image: url('https://i.ibb.co/chVXh2MK/pngtree-star-png-vector-icon-ui-game-png-image-6121753.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 3;
+}
+
+#game-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    z-index: 20;
+}
+
+        #game-over-text {
+            margin-bottom: 30px;
+            font-size: 42px;
+            font-weight: bold;
+        }
+
+        #game-over-buttons {
+            display: none;
+        }
+
+        .menu-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    background-image: url('https://i.ibb.co/JW5ZhQyx/crab-jump.jpg');
+    background-size: cover;
+    background-position: center;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    z-index: 20;
+}
+.button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #ff1493;
+}
+
+        #nickname-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    background-image: url('https://i.ibb.co/JW5ZhQyx/crab-jump.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    z-index: 30;
+}
+
+#nickname-input {
+    margin-top: 200px;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 18px;
+    width: 200px;
+    text-align: center;
+}
+#submit-nickname {
+    margin-top: 5px;
+}
+
+        #leaderboard-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 20;
+        }
+
+        #leaderboard {
+            width: 80%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        #leaderboard th, #leaderboard td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #leaderboard th {
+            background-color: #333;
+        }
+        #leaderboard-button {
+    margin-top: 5px;
+}
+
+        #pause-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 10;
+}
+
+#pause-button:hover {
+    background-color: #ff1493;
+}
+        #game-over-score {
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#main-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#start-button {
+    margin-top: 200px;
+    margin-bottom: 15px; 
+}
+
+#pause-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    z-index: 25;
+}
+
+#pause-title {
+    margin-bottom: 30px;
+    font-size: 42px;
+    font-weight: bold;
+}
+.moving-platform {
+    background-color: #ff4da6;
+    border: 2px solid #ff0080; 
+}
+
+#sound-toggle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 15;
+}
+
+.sound-icon {
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.3s;
+}
+
+.sound-on .sound-on-icon {
+    display: block;
+}
+
+.sound-on .sound-off-icon {
+    display: none;
+}
+
+.sound-off .sound-on-icon {
+    display: none;
+}
+
+.sound-off .sound-off-icon {
+    display: block;
+}
+
+.cloud {
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1;
+    opacity: 0.68;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.space-object {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.spaceship {
+    position: absolute;
+    width: 180px; 
+    height: 90px; 
+    background-image: url('https://i.ibb.co/fz7HTT4r/spaceship.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 2;
+    transition: transform 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+.moving-platform {
+    animation: pulse 1s infinite;
+}
+    </style>
+</head>
+<body>
+    <audio id="fall-sound" preload="auto">
+        <source src="sounds/fall.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="click-sound" preload="auto">
+        <source src="sounds/click.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="background-music" loop preload="auto">
+        <source src="sounds/background.mp3" type="audio/mpeg">
+    </audio>
+    <div id="phone-container"></div>
+    <div id="game-container">
+        <div id="intro-background"></div>
+        <div id="score">0</div>
+        <div id="sound-toggle" class="sound-on">
+            <img src="https://i.ibb.co/SDt19M4y/SoundOn.png" alt="sound" class="sound-icon sound-on-icon">
+            <img src="https://i.ibb.co/S7Dkjp19/SoundOff.png" alt="muted" class="sound-icon sound-off-icon">
+        </div>
+        <div id="player"></div>
+        
+        <div id="game-over">
+            <div id="game-over-text">Game Over</div>
+            <div id="game-over-score">Score: 0</div>
+            <div id="game-over-buttons">
+                <button class="button" id="restart-button">Restart</button>
+                <button class="button" id="menu-button">Menu</button>
+            </div>
+        </div>
+        
+        <div class="menu-screen" id="main-menu">
+            <button class="button" id="start-button">Start</button>
+            <button class="button" id="leaderboard-button">Leaderboard</button>
+        </div>
+        
+        <div id="nickname-container">
+            <input type="text" id="nickname-input" maxlength="15" placeholder="Your nickname">
+            <button class="button" id="submit-nickname">Submit</button>
+        </div>
+        
+        <div id="leaderboard-container">
+            <h2>Leaderboard</h2>
+            <table id="leaderboard">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Nickname</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                </tbody>
+            </table>
+            <button class="button" id="back-button">Back to Menu</button>
+        </div>
+        
+        <button id="pause-button">Pause</button>
+        
+        <div id="pause-screen">
+            <div id="pause-title">Paused</div>
+            <button class="button" id="resume-button">Resume</button>
+            <button class="button" id="pause-restart-button">Restart</button>
+        </div>
+    </div>
+
+    <script>
+// Game variables
+let player;
+let platforms = [];
+let stars = [];
+let score = 0;
+let highScore = 0;
+let gameRunning = false;
+let gamePaused = false;
+let nickname = '';
+let leaderboard = [];
+let lastPlatformIndex = -1;
+let animationFrameId = null;
+let lastCloudTime = 0; // Время последнего создания облака
+// Visual progression
+let clouds = [];
+let currentBackgroundState = 'default'; // 'default', 'clouds', 'space'
+let transitionHeight = 250; // Score at which clouds start appearing
+let spaceTransitionHeight = 1000; // Score at which space transition begins
+let backgroundTransitionSpeed = 0.01; // How quickly background changes
+let spaceships = [];
+
+
+// Physics
+let playerVelY = 0;
+const gravity = 0.13; // Уменьшено с 0.4 до 0.3 для лучшего допрыгивания
+const baseJumpForce = -6.5; // Увеличено с -9 до -9.5 для лучшего допрыгивания
+const maxJumpForce = -9.5; // Увеличено с -11 до -12 для максимальной силы прыжка
+let currentJumpForce = baseJumpForce; // Текущая сила прыжка
+
+let keys = {
+    a: false,
+    d: false
+};
+
+// Game elements
+const gameContainer = document.getElementById('game-container');
+const scoreElement = document.getElementById('score');
+const playerElement = document.getElementById('player');
+const gameOverElement = document.getElementById('game-over');
+const gameOverTextElement = document.getElementById('game-over-text');
+const gameOverButtonsElement = document.getElementById('game-over-buttons');
+const mainMenuElement = document.getElementById('main-menu');
+const nicknameContainer = document.getElementById('nickname-container');
+const leaderboardContainer = document.getElementById('leaderboard-container');
+const leaderboardBody = document.getElementById('leaderboard-body');
+const pauseButton = document.getElementById('pause-button');
+const gameOverScoreElement = document.getElementById('game-over-score');
+const pauseScreen = document.getElementById('pause-screen');
+const resumeButton = document.getElementById('resume-button');
+const pauseRestartButton = document.getElementById('pause-restart-button');
+//Cloud images
+const cloudImages = [
+    'https://i.ibb.co/spsyY1d9/cloud1.png', 
+    'https://i.ibb.co/sMXFcVV/cloud2.png', 
+    'https://i.ibb.co/DDTtXGdh/cloud3.png'  
+];
+const cloudInterval = 1000;
+const starImages = ['yellow.png', 'earth.png'];
+// Sound elements
+let fallSound = document.getElementById('fall-sound');
+let clickSound = document.getElementById('click-sound');
+let isMuted = false;
+let soundToggle;
+let backgroundMusic = null;
+let musicPlaying = false;
+
+function playSound(sound) {
+    if (sound.readyState >= 2) { 
+        sound.currentTime = 0; 
+        sound.play().catch(error => {
+            console.log("Error playing sound: " + error.message);
+        });
+    }
+}
+function playBackgroundMusic() {
+    if (backgroundMusic && !musicPlaying) {
+        backgroundMusic.volume = 0.5;
+        backgroundMusic.play().catch(error => {
+            console.log("Error playing background music: " + error.message);
+        });
+        musicPlaying = true;
+    }
+}
+
+function pauseBackgroundMusic() {
+    if (backgroundMusic && musicPlaying) {
+        backgroundMusic.pause();
+        musicPlaying = false;
+    }
+}
+function addClickSoundToButtons() {
+    const buttons = document.getElementsByClassName('button');
+    
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function() {
+            playSound(clickSound);
+        });
+    }
+    
+    pauseButton.addEventListener('click', function() {
+        playSound(clickSound);
+    });
+}
+function toggleSound() {
+    isMuted = !isMuted;
+    
+    if (isMuted) {
+        backgroundMusic.pause();
+        soundToggle.classList.remove('sound-on');
+        soundToggle.classList.add('sound-off');
+    } else {
+        backgroundMusic.play().catch(error => {
+            console.log("Error playing background music: " + error.message);
+        });
+        soundToggle.classList.remove('sound-off');
+        soundToggle.classList.add('sound-on');
+    }
+    
+    fallSound.muted = isMuted;
+    clickSound.muted = isMuted;
+}
+
+const gameWidth = gameContainer.offsetWidth;
+const gameHeight = gameContainer.offsetHeight;
+
+function stopGameLoop() {
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+}
+
+function init() {
+    fallSound = document.getElementById('fall-sound');
+    clickSound = document.getElementById('click-sound');
+    backgroundMusic = document.getElementById('background-music');
+    soundToggle = document.getElementById('sound-toggle');
+
+    fallSound.muted = isMuted;
+    clickSound.muted = isMuted;
+    backgroundMusic.muted = isMuted;
+
+    soundToggle.addEventListener('click', toggleSound);
+
+    if (isMuted) {
+        soundToggle.classList.remove('sound-on');
+        soundToggle.classList.add('sound-off');
+    } else {
+        soundToggle.classList.remove('sound-off');
+        soundToggle.classList.add('sound-on');
+    }
+
+    document.addEventListener('click', function startMusic() {
+        if (backgroundMusic.paused) {
+            backgroundMusic.play().catch(error => {
+                console.log("Error playing background music: " + error.message);
+            });
+        }
+        document.removeEventListener('click', startMusic);
+    });
+
+    nicknameContainer.style.display = 'flex';
+    document.getElementById('intro-background').style.display = 'none'; 
+    mainMenuElement.style.display = 'none';
+    gameOverElement.style.display = 'none';
+    playerElement.style.display = 'none';
+    scoreElement.style.display = 'none';
+    pauseButton.style.display = 'none';
+    pauseScreen.style.display = 'none';
+    
+    platforms = [];
+    
+    pauseButton.removeEventListener('click', showPauseScreen);
+    resumeButton.removeEventListener('click', resumeGame);
+    pauseRestartButton.removeEventListener('click', restartFromPause);
+    
+    pauseButton.addEventListener('click', showPauseScreen);
+    resumeButton.addEventListener('click', resumeGame);
+    pauseRestartButton.addEventListener('click', restartFromPause);
+    
+    const platformElements = document.getElementsByClassName('platform');
+    while (platformElements.length > 0) {
+        platformElements[0].parentNode.removeChild(platformElements[0]);
+    }
+    
+    document.getElementById('submit-nickname').addEventListener('click', submitNickname);
+    document.getElementById('start-button').addEventListener('click', startGame);
+    document.getElementById('restart-button').addEventListener('click', restartGame);
+    document.getElementById('menu-button').addEventListener('click', showMainMenu);
+    document.getElementById('leaderboard-button').addEventListener('click', showLeaderboard);
+    document.getElementById('back-button').addEventListener('click', showMainMenu);
+    
+    document.addEventListener('keydown', e => {
+        if (e.key === 'a' || e.key === 'A') keys.a = true;
+        if (e.key === 'd' || e.key === 'D') keys.d = true;
+    });
+    
+    document.addEventListener('keyup', e => {
+        if (e.key === 'a' || e.key === 'A') keys.a = false;
+        if (e.key === 'd' || e.key === 'D') keys.d = false;
+    });
+    addClickSoundToButtons();
+}
+
+function submitNickname() {
+    const input = document.getElementById('nickname-input');
+    nickname = input.value.trim() || 'Player';
+    nicknameContainer.style.display = 'none';
+    mainMenuElement.style.display = 'flex';
+}
+
+function startGame() {
+    stopGameLoop();
+    if (!isMuted && backgroundMusic.paused) {
+        backgroundMusic.play().catch(error => {
+            console.log("Error playing background music: " + error.message);
+        });
+    }
+    
+    currentBackgroundState = 'default';
+    gameContainer.style.transition = 'none';
+    gameContainer.style.backgroundColor = '#87ceeb';
+    setTimeout(() => {
+        gameContainer.style.transition = 'background-color 0.5s ease-in-out';
+    }, 0);
+
+    for (let i = clouds.length - 1; i >= 0; i--) {
+        const cloudElement = document.getElementById('cloud-' + i);
+        if (cloudElement) {
+            cloudElement.remove();
+        }
+    }
+    clouds = [];
+
+    for (let i = spaceships.length - 1; i >= 0; i--) {
+        const shipElement = document.getElementById('spaceship-' + i);
+        if (shipElement) {
+            shipElement.remove();
+        }
+    }
+    spaceships = [];
+
+    const spaceObjects = document.getElementsByClassName('space-object');
+    while (spaceObjects.length > 0) {
+        spaceObjects[0].parentNode.removeChild(spaceObjects[0]);
+    }
+
+    const introBackground = document.getElementById('intro-background');
+introBackground.style.display = 'block';
+introBackground.style.top = '0px'; 
+
+    mainMenuElement.style.display = 'none';
+    gameOverElement.style.display = 'none';
+    playerElement.style.display = 'block';
+    scoreElement.style.display = 'block';
+    pauseButton.style.display = 'block';
+    playBackgroundMusic();
+
+    platforms = [];
+    stars = [];
+    score = 0;
+    scoreElement.innerText = score;
+    playerVelY = 0;
+    currentJumpForce = baseJumpForce;
+    lastPlatformIndex = -1;
+    
+    const platformElements = document.getElementsByClassName('platform');
+    while (platformElements.length > 0) {
+        gameContainer.removeChild(platformElements[0]);
+    }
+    
+    const starElements = document.getElementsByClassName('star');
+    while (starElements.length > 0) {
+        gameContainer.removeChild(starElements[0]);
+    }
+    
+    createStartingPlatforms();
+    
+    const firstPlatform = platforms[0];
+    const playerLeft = firstPlatform.left + (firstPlatform.width - playerElement.offsetWidth) / 2;
+    const playerTop = firstPlatform.top - playerElement.offsetHeight;
+    
+    playerElement.style.left = playerLeft + 'px';
+    playerElement.style.top = playerTop + 'px';
+    
+    player = {
+        left: playerLeft,
+        top: playerTop,
+        width: playerElement.offsetWidth,
+        height: playerElement.offsetHeight
+    };
+    
+    gameRunning = true;
+    pauseScreen.style.display = 'none';
+    gamePaused = false;
+    
+    requestAnimationFrame(gameLoop);
+}
+
+function showPauseScreen() {
+    stopGameLoop();
+    
+    gameRunning = false;
+    gamePaused = true;
+    pauseScreen.style.display = 'flex';
+    document.getElementById('intro-background').style.display = 'block';
+
+    pauseBackgroundMusic();
+}
+
+function resumeGame() {
+    pauseScreen.style.display = 'none';
+    gameRunning = true;
+    gamePaused = false;
+
+    playBackgroundMusic();
+
+    if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(gameLoop);
+    }
+    document.getElementById('intro-background').style.display = 'block';
+    
+    if (!isMuted && backgroundMusic.paused) {
+        backgroundMusic.play().catch(error => {
+            console.log("Error playing background music: " + error.message);
+        });
+    }
+}
+
+function restartFromPause() {
+    pauseScreen.style.display = 'none';
+    startGame();
+}
+
+function restartGame() {
+    gameOverElement.style.display = 'none';
+    startGame();
+}
+
+function showMainMenu() {
+    stopGameLoop();
+    
+    gameOverElement.style.display = 'none';
+    leaderboardContainer.style.display = 'none';
+    mainMenuElement.style.display = 'flex';
+    document.getElementById('intro-background').style.display = 'none';
+    playerElement.style.display = 'none';
+    scoreElement.style.display = 'none';
+    pauseButton.style.display = 'none';
+    gameRunning = false;
+    gamePaused = false;
+
+    pauseBackgroundMusic();
+    const platformElements = document.getElementsByClassName('platform');
+    while (platformElements.length > 0) {
+        platformElements[0].parentNode.removeChild(platformElements[0]);
+    }
+    
+    const starElements = document.getElementsByClassName('star');
+    while (starElements.length > 0) {
+        starElements[0].parentNode.removeChild(starElements[0]);
+    }
+    
+    stars = [];
+}
+
+function showLeaderboard() {
+    mainMenuElement.style.display = 'none';
+    leaderboardContainer.style.display = 'flex';
+    pauseButton.style.display = 'none'; 
+    updateLeaderboardDisplay();
+}
+
+function updateLeaderboardDisplay() {
+    leaderboardBody.innerHTML = '';
+
+    leaderboard.sort((a, b) => b.score - a.score);
+    
+    for (let i = 0; i < Math.min(10, leaderboard.length); i++) {
+        const row = document.createElement('tr');
+        
+        const rankCell = document.createElement('td');
+        rankCell.textContent = i + 1;
+        
+        const nameCell = document.createElement('td');
+        nameCell.textContent = leaderboard[i].nickname;
+        
+        const scoreCell = document.createElement('td');
+        scoreCell.textContent = leaderboard[i].score;
+        
+        row.appendChild(rankCell);
+        row.appendChild(nameCell);
+        row.appendChild(scoreCell);
+        
+        leaderboardBody.appendChild(row);
+    }
+}
+
+function createStartingPlatforms() {
+    const firstPlatform = {
+        left: gameWidth / 2 - 40,
+        top: gameHeight - 100,
+        width: 80,
+        height: 15,
+        visited: false,
+        isMoving: false,
+        speed: 0,
+        direction: 1
+    };
+    platforms.push(firstPlatform);
+    
+    const platformElement = document.createElement('div');
+    platformElement.className = 'platform';
+    platformElement.style.left = firstPlatform.left + 'px';
+    platformElement.style.top = firstPlatform.top + 'px';
+    gameContainer.appendChild(platformElement);
+    
+    let lastY = firstPlatform.top;
+    let movedPlatformCreated = false;
+    
+    let levelPlatformTypes = {};
+    
+    for (let i = 0; i < 5; i++) {
+        lastY = lastY - 140;
+        
+        let shouldHaveMovingPlatform = !movedPlatformCreated && i >= 1 ? 
+                                     Math.random() < 0.5 : 
+                                     Math.random() < 0.3;
+        
+        levelPlatformTypes[lastY] = shouldHaveMovingPlatform ? "moving" : "static";
+
+        let platformType = levelPlatformTypes[lastY];
+        let firstPlatformAtHeight = generatePlatformAtSpecificY(lastY, {
+            isMoving: platformType === "moving",
+            forceType: platformType
+        });
+        
+        if (firstPlatformAtHeight && firstPlatformAtHeight.isMoving) {
+            movedPlatformCreated = true;
+            continue;
+        }
+        
+        let addSecondPlatform = platformType === "static" && Math.random() < 0.3;
+        
+        if (addSecondPlatform) {
+            generatePlatformAtSpecificY(lastY, {
+                isMoving: false,
+                forceType: "static",
+                existingLeft: firstPlatformAtHeight.left,
+                existingWidth: firstPlatformAtHeight.width
+            });
+        }
+    }
+    
+    if (!movedPlatformCreated) {
+        let platformsByHeight = {};
+        
+        for (let i = 1; i < platforms.length; i++) {
+            const height = platforms[i].top;
+            if (!platformsByHeight[height]) {
+                platformsByHeight[height] = [];
+            }
+            platformsByHeight[height].push(i);
+        }
+
+        for (let height in platformsByHeight) {
+            if (platformsByHeight[height].length === 1) {
+                const index = platformsByHeight[height][0];
+                
+                platforms[index].isMoving = true;
+                platforms[index].baseSpeed = 1 + Math.floor(Math.random() * 2); 
+                platforms[index].speed = platforms[index].baseSpeed;
+                platforms[index].direction = Math.random() < 0.5 ? 1 : -1;
+                
+                const platformElements = document.getElementsByClassName('platform');
+                platformElements[index].classList.add('moving-platform');
+                
+                levelPlatformTypes[platforms[index].top] = "moving";
+                
+                movedPlatformCreated = true;
+                break;
+            }
+        }
+    }
+}
+
+function generatePlatformAtSpecificY(yPosition, options = {}) {
+    const {
+        isMoving = false,
+        forceType = null,
+        existingLeft = null,
+        existingWidth = null
+    } = options;
+    
+    const platformsAtSameHeight = platforms.filter(p => Math.abs(p.top - yPosition) < 15);
+    
+    let shouldMove = isMoving;
+
+    if (forceType === "moving") {
+        shouldMove = true;
+    } else if (forceType === "static") {
+        shouldMove = false;
+    }
+    
+    const hasMovingPlatformAtHeight = platformsAtSameHeight.some(p => p.isMoving);
+    
+    if (hasMovingPlatformAtHeight) {
+        shouldMove = false;
+    } else if (forceType === "moving") {
+        shouldMove = true;
+    }
+    
+    let platformX;
+    
+    if (existingLeft !== null) {
+        if (existingLeft < gameWidth / 2) {
+            platformX = Math.min(gameWidth - 80, existingLeft + existingWidth + 120);
+        } else {
+            platformX = Math.max(0, existingLeft - 200);
+        }
+    } else {
+        platformX = Math.random() * (gameWidth - 80);
+    }
+    
+    for (const platform of platformsAtSameHeight) {
+        const minDistance = 100; 
+        
+        if (platformX < platform.left + platform.width + minDistance && 
+            platformX + 80 > platform.left - minDistance) {
+            
+            if (platformX < platform.left) {
+                platformX = Math.max(0, platform.left - minDistance - 80);
+            } else {
+                platformX = Math.min(gameWidth - 80, platform.left + platform.width + minDistance);
+            }
+        }
+    }
+    
+    const baseSpeed = 0.8 + (Math.random() * 0.5);
+    let speedMultiplier = 1.0;
+    
+    if (score >= 200) {
+        speedMultiplier = Math.min(1.0 + (Math.floor((score - 200) / 300) * 0.1), 2.0);
+    }
+    
+    const speed = shouldMove ? baseSpeed * speedMultiplier : 0;
+    const direction = Math.random() < 0.5 ? 1 : -1;
+    
+    const platform = {
+        left: platformX,
+    top: yPosition,
+    width: 70,
+    height: 12, 
+        visited: false,
+        isMoving: shouldMove,
+        baseSpeed: shouldMove ? baseSpeed : 0,
+        speed: speed,
+        direction: direction
+    };
+    
+    platforms.push(platform);
+    
+
+    const platformElement = document.createElement('div');
+    platformElement.className = 'platform';
+    platformElement.style.left = platform.left + 'px';
+    platformElement.style.top = platform.top + 'px';
+    
+    if (shouldMove) {
+        platformElement.classList.add('moving-platform');
+    }
+    
+    gameContainer.appendChild(platformElement);
+    
+    if (Math.random() < 0.55) {
+        createStar(platform);
+    }
+    
+    return platform;
+}
+
+function generatePlatform(yPosition) {
+    const maxJumpDistance = 180;
+
+    let prevPlatX = gameWidth / 2;
+    if (platforms.length > 0) {
+        prevPlatX = platforms[platforms.length - 1].left + 40;
+    }
+    
+    let minX = Math.max(0, prevPlatX - maxJumpDistance);
+    let maxX = Math.min(gameWidth - 80, prevPlatX + maxJumpDistance);
+    let platformX = Math.random() * (maxX - minX) + minX;
+    
+    const platformsAtSameHeight = platforms.filter(p => Math.abs(p.top - yPosition) < 15);
+    
+    let isMoving = false;
+    
+    const alreadyHasMovingPlatform = platformsAtSameHeight.some(p => p.isMoving);
+    
+    if (!alreadyHasMovingPlatform) {
+        isMoving = Math.random() < 0.25;
+    }
+    
+    if (platformsAtSameHeight.length > 0) {
+        for (const existingPlatform of platformsAtSameHeight) {
+            const wouldOverlap = (
+                (platformX < existingPlatform.left + existingPlatform.width + 100) && 
+                (platformX + 80 > existingPlatform.left - 100)
+            );
+            
+            if (wouldOverlap) {
+                if (platformX < existingPlatform.left) {
+                    platformX = Math.max(0, existingPlatform.left - 180);
+                } else {
+                    platformX = Math.min(gameWidth - 80, existingPlatform.left + existingPlatform.width + 100);
+                }
+            }
+        }
+    }
+    
+    //Initial speed
+    const baseSpeed = 0.8 + (Math.random() * 0.5);
+    let speedMultiplier = 1.0;
+    
+    if (score >= 200) {
+        let bonusMultiplier = 1.0 + (Math.floor((score - 200) / 300) * 0.1);
+        speedMultiplier = Math.min(bonusMultiplier, 2.0);
+    }
+    
+    const speed = isMoving ? baseSpeed * speedMultiplier : 0;
+    const direction = Math.random() < 0.5 ? 1 : -1;
+    
+    const platform = {
+        left: platformX,
+    top: yPosition,
+    width: 70, 
+    height: 12, 
+        visited: false,
+        isMoving: isMoving,
+        baseSpeed: isMoving ? baseSpeed : 0,
+        speed: speed,
+        direction: direction
+    };
+    platforms.push(platform);
+    
+    const platformElement = document.createElement('div');
+    platformElement.className = 'platform';
+    platformElement.style.left = platform.left + 'px';
+    platformElement.style.top = platform.top + 'px';
+    
+    if (isMoving) {
+        platformElement.classList.add('moving-platform');
+    }
+    
+    gameContainer.appendChild(platformElement);
+    
+    if (Math.random() < 0.55) {
+        createStar(platform);
+    }
+    
+    return platform.top;
+}
+
+function createStar(platform) {
+    const star = {
+        left: platform.left + platform.width/2 - 24,
+        top: platform.top - 55,
+        width: 48, 
+        height: 48, 
+        collected: false,
+        platformIndex: platforms.indexOf(platform)
+    };
+    
+    stars.push(star);
+    
+    const starElement = document.createElement('div');
+    starElement.className = 'star';
+    starElement.style.left = star.left + 'px';
+    starElement.style.top = star.top + 'px';
+    starElement.id = 'star-' + (stars.length - 1); 
+    gameContainer.appendChild(starElement);
+}
+
+// Create a cloud at a random position
+function createCloud() {
+    const cloudSize = 70 + Math.random() * 50; 
+    const isFromLeft = Math.random() < 0.5; 
+    const randomCloudImage = cloudImages[Math.floor(Math.random() * cloudImages.length)];
+    const baseSpeed = (0.1 + Math.random() * 0.2) * 1.2 * 1.2; 
+    const cloud = {
+        left: isFromLeft ? -cloudSize : gameWidth,
+        top: -cloudSize - 100 - (Math.random() * 50),
+        width: cloudSize,
+        height: cloudSize * 0.6,
+        speedX: isFromLeft ? baseSpeed : -baseSpeed,
+        opacity: 0.68
+    };
+    
+    clouds.push(cloud);
+    
+    const cloudElement = document.createElement('div');
+    cloudElement.className = 'cloud';
+    cloudElement.style.left = cloud.left + 'px';
+    cloudElement.style.top = cloud.top + 'px';
+    cloudElement.style.width = cloud.width + 'px';
+    cloudElement.style.height = cloud.height + 'px';
+    cloudElement.style.backgroundImage = `url('${randomCloudImage}')`;
+    cloudElement.id = 'cloud-' + (clouds.length - 1);
+    gameContainer.appendChild(cloudElement);
+    console.log('Облако создано:', cloud, 'Изображение:', randomCloudImage);
+}
+
+// Update cloud positions
+function updateClouds() {
+    for (let i = 0; i < clouds.length; i++) {
+        clouds[i].left += clouds[i].speedX;
+                if (score >= 250 && score <= 1000) {
+            const fadeProgress = (score - 250) / (1000 - 250); 
+            clouds[i].opacity = 0.68 * (1 - fadeProgress);
+        } else if (score > 1000) {
+            clouds[i].opacity = 0; 
+        }
+        
+        const cloudElement = document.getElementById('cloud-' + i);
+        if (cloudElement) {
+            cloudElement.style.left = clouds[i].left + 'px';
+            cloudElement.style.opacity = clouds[i].opacity; 
+        }
+    }
+    
+    let i = 0;
+    while (i < clouds.length) {
+        const cloud = clouds[i];
+        if (cloud.left < -cloud.width || cloud.left > gameWidth || cloud.opacity <= 0) {
+            const cloudElement = document.getElementById('cloud-' + i);
+            if (cloudElement) {
+                cloudElement.remove();
+            }
+            clouds.splice(i, 1);
+            for (let j = i; j < clouds.length; j++) {
+                const nextCloudElement = document.getElementById('cloud-' + (j + 1));
+                if (nextCloudElement) {
+                    nextCloudElement.id = 'cloud-' + j;
+                }
+            }
+        } else {
+            i++;
+        }
+    }
+}
+
+function updateSpaceships() {
+    for (let i = 0; i < spaceships.length; i++) {
+        const ship = spaceships[i];
+        ship.left += ship.speedX; 
+        ship.top += 0.5;
+
+        const shipElement = document.getElementById('spaceship-' + i);
+        if (shipElement) {
+            shipElement.style.left = ship.left + 'px';
+            shipElement.style.top = ship.top + 'px';
+        }
+    }
+
+    let i = 0;
+    while (i < spaceships.length) {
+        const ship = spaceships[i];
+        if (ship.left < -ship.width || ship.left > gameWidth || ship.top > gameHeight) {
+            const shipElement = document.getElementById('spaceship-' + i);
+            if (shipElement) {
+                shipElement.remove();
+            }
+            spaceships.splice(i, 1);
+        } else {
+            i++;
+        }
+    }
+}
+
+function updateBackground() {
+    const currentTime = Date.now();
+    
+    if (score < 250) {
+        if (currentBackgroundState !== 'default') {
+            currentBackgroundState = 'default';
+            gameContainer.style.backgroundColor = '#87ceeb';
+            console.log('Фон установлен на начальный цвет #87ceeb, счет:', score);
+        }
+    }
+    else if (score >= 250 && score < 500) {
+        if (currentBackgroundState !== 'clouds') {
+            currentBackgroundState = 'clouds';
+            gameContainer.style.transition = 'background-color 3s ease-in-out';
+            console.log('Переход к холодному голубому начат, счет:', score);
+        }
+        
+        const colorProgress = Math.min((score - 250) / (500 - 250), 1);
+        const startColor = { r: 135, g: 206, b: 235 }; // #87ceeb
+        const midColor = { r: 135, g: 206, b: 250 }; // #87cefa
+        const r = Math.floor(startColor.r + (midColor.r - startColor.r) * colorProgress);
+        const g = Math.floor(startColor.g + (midColor.g - startColor.g) * colorProgress);
+        const b = Math.floor(startColor.b + (midColor.b - startColor.b) * colorProgress);
+        gameContainer.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        console.log('Цвет фона (250–500):', `rgb(${r}, ${g}, ${b})`, 'счет:', score);
+        
+        if (currentTime - lastCloudTime > cloudInterval && clouds.length < 2) {
+            console.log('Создание облака, счет:', score, 'облаков сейчас:', clouds.length);
+            createCloud();
+            lastCloudTime = currentTime;
+        }
+    }
+    else if (score >= 500 && score < 1000) {
+        if (currentBackgroundState !== 'clouds') {
+            currentBackgroundState = 'clouds';
+            gameContainer.style.transition = 'background-color 3s ease-in-out';
+            console.log('Переход к синему голубому начат, счет:', score);
+        }
+        
+        const colorProgress = Math.min((score - 500) / (1000 - 500), 1);
+        const midColor = { r: 135, g: 206, b: 250 }; // #87cefa
+        const endColor = { r: 135, g: 191, b: 250 }; // #87bffa
+        const r = Math.floor(midColor.r + (endColor.r - midColor.r) * colorProgress);
+        const g = Math.floor(midColor.g + (endColor.g - midColor.g) * colorProgress);
+        const b = Math.floor(midColor.b + (endColor.b - midColor.b) * colorProgress);
+        gameContainer.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        console.log('Цвет фона (500–1000):', `rgb(${r}, ${g}, ${b})`, 'счет:', score);
+        
+        if (currentTime - lastCloudTime > cloudInterval && clouds.length < 2) {
+            console.log('Создание облака, счет:', score, 'облаков сейчас:', clouds.length);
+            createCloud();
+            lastCloudTime = currentTime;
+        }
+    }
+    else if (score >= spaceTransitionHeight) {
+        if (currentBackgroundState !== 'space') {
+            currentBackgroundState = 'space';
+            gameContainer.style.backgroundColor = '#001133';
+            console.log('Переход к космосу, счет:', score);
+        }
+        const spaceProgress = Math.min((score - spaceTransitionHeight) / 1000, 1);
+        const r = Math.floor(0 * (1 - spaceProgress));
+        const g = Math.floor(17 * (1 - spaceProgress));
+        const b = Math.floor(51 * (1 - spaceProgress));
+        gameContainer.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        console.log('Цвет фона космоса:', `rgb(${r}, ${g}, ${b})`, 'счет:', score);
+        
+        if (Math.random() < 0.03) {
+            createSpaceObject();
+        }
+        
+        if (score >= 1100) {
+            const scoreSince1100 = score - 1100;
+            if (scoreSince1100 % 200 === 0 && Math.random() < 0.5 && spaceships.length === 0) {
+                createSpaceship();
+            }
+        }
+    }
+}
+function createSpaceObject() {
+    const isSmallStar = Math.random() < 0.8; 
+    const objectSize = isSmallStar ? 2 + Math.random() * 3 : 10 + Math.random() * 15;
+    
+    const spaceObject = document.createElement('div');
+    spaceObject.className = 'space-object';
+    spaceObject.style.position = 'absolute';
+    spaceObject.style.width = objectSize + 'px';
+    spaceObject.style.height = objectSize + 'px';
+    spaceObject.style.borderRadius = '50%';
+    spaceObject.style.left = Math.random() * gameWidth + 'px';
+    spaceObject.style.top = -objectSize + 'px';
+    spaceObject.style.zIndex = '1';
+    
+    if (isSmallStar) {
+        spaceObject.style.backgroundColor = 'white';
+        spaceObject.style.boxShadow = '0 0 5px 2px rgba(255, 255, 255, 0.7)';
+    } else {
+        const hue = Math.floor(Math.random() * 360);
+        spaceObject.style.backgroundColor = `hsl(${hue}, 70%, 60%)`;
+    }
+    
+    gameContainer.appendChild(spaceObject);
+    
+    setTimeout(() => {
+        if (spaceObject.parentNode) {
+            spaceObject.parentNode.removeChild(spaceObject);
+        }
+    }, 20000);
+}
+
+function createSpaceship() {
+    if (spaceships.length > 0) {
+        const oldShipElement = document.getElementById('spaceship-0');
+        if (oldShipElement) {
+            oldShipElement.remove();
+        }
+        spaceships = [];
+    }
+
+    const shipWidth = 144; 
+    const shipHeight = 72; 
+    const isMovingRight = Math.random() < 0.5; 
+
+    const spaceship = {
+        left: Math.random() * (gameWidth - shipWidth), 
+        top: -shipHeight,
+        width: shipWidth,
+        height: shipHeight,
+        speedX: isMovingRight ? (0.3 + Math.random() * 0.3) : -(0.3 + Math.random() * 0.3), 
+        speedY: 0,
+        direction: isMovingRight ? 1 : -1 
+    };
+
+    spaceships.push(spaceship);
+
+    const shipElement = document.createElement('div');
+    shipElement.className = 'spaceship';
+    shipElement.id = 'spaceship-0';
+    shipElement.style.left = spaceship.left + 'px';
+    shipElement.style.top = spaceship.top + 'px';
+    shipElement.style.width = spaceship.width + 'px';
+    shipElement.style.height = spaceship.height + 'px';
+    shipElement.style.backgroundImage = `url('https://i.ibb.co/20T6YD3Q/spaceship.png')`; 
+    shipElement.style.transform = isMovingRight ? 'scaleX(1)' : 'scaleX(-1)'; 
+    gameContainer.appendChild(shipElement);
+
+    console.log('Корабль создан:', spaceship);
+}
+
+function updateMovingPlatforms() {
+    for (let i = 0; i < platforms.length; i++) {
+        const platform = platforms[i];
+        
+        if (!platform.isMoving) continue;
+        
+        platform.left += platform.speed * platform.direction;
+        
+        if (platform.left <= 0) {
+            platform.left = 0;
+            platform.direction *= -1;
+        } else if (platform.left + platform.width >= gameWidth) {
+            platform.left = gameWidth - platform.width;
+            platform.direction *= -1;
+        }
+        
+        const platformElements = document.getElementsByClassName('platform');
+        if (i < platformElements.length) {
+            platformElements[i].style.left = platform.left + 'px';
+        }
+        
+        for (let j = 0; j < stars.length; j++) {
+            if (!stars[j].collected && stars[j].platformIndex === i) {
+                stars[j].left = platform.left + platform.width/2 - 24;
+                
+                const starElement = document.getElementById('star-' + j);
+                if (starElement) {
+                    starElement.style.left = stars[j].left + 'px';
+                }
+            }
+        }
+    }
+}
+
+function updatePlatformSpeeds() {
+    let speedMultiplier = 1.0;
+    
+    if (score >= 200) {
+        let bonusPercent = Math.floor((score - 200) / 200) * 5;
+        bonusPercent = Math.min(bonusPercent, 50);
+        speedMultiplier = 1.0 + (bonusPercent / 100);
+    }
+
+    for (let i = 0; i < platforms.length; i++) {
+        if (platforms[i].isMoving && platforms[i].baseSpeed) {
+            platforms[i].speed = platforms[i].baseSpeed * speedMultiplier;
+        }
+    }
+}
+
+function gameLoop() {
+    console.log('Цикл игры работает, текущий счет:', score);
+    updateBackground();
+    updateClouds();
+    updateSpaceships();
+    
+    if (!gameRunning) {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+        return;
+    }
+
+    if (!gameLoop.lastCheckedScore) {
+        gameLoop.lastCheckedScore = score;
+    }
+    if (Math.floor(score / 200) !== Math.floor(gameLoop.lastCheckedScore / 200)) {
+        updatePlatformSpeeds();
+    }
+    gameLoop.lastCheckedScore = score;
+
+    playerVelY += gravity;
+    player.top += playerVelY;
+
+    if (keys.a && player.left > 0) {
+        player.left -= 3;
+    }
+    if (keys.d && player.left < gameWidth - player.width) {
+        player.left += 3;
+    }
+
+    for (let i = 0; i < platforms.length; i++) {
+        const platform = platforms[i];
+        if (
+            player.left < platform.left + platform.width &&
+            player.left + player.width > platform.left &&
+            player.top + player.height <= platform.top + platform.height &&
+            player.top + player.height + playerVelY >= platform.top &&
+            playerVelY > 0
+        ) {
+            player.top = platform.top - player.height;
+            playerVelY = currentJumpForce;
+            platform.visited = true;
+        }
+    }
+
+    for (let i = 0; i < stars.length; i++) {
+        const star = stars[i];
+        if (
+            !star.collected &&
+            player.left < star.left + star.width &&
+            player.left + player.width > star.left &&
+            player.top < star.top + star.height &&
+            player.top + player.height > star.top
+        ) {
+            console.log(`Звезда собрана! Индекс: ${i}, Позиция звезды: (${star.left}, ${star.top}), Позиция игрока: (${player.left}, ${player.top})`);
+            star.collected = true;
+            const starElement = document.getElementById('star-' + i);
+            if (starElement) {
+                starElement.remove();
+            }
+            score += 20;
+            scoreElement.innerText = score;
+        }
+    }
+
+    if (player.top > gameHeight) {
+        gameOver();
+        return;
+    }
+
+    updateMovingPlatforms();
+
+    if (player.top < gameHeight / 2) {
+        const diff = gameHeight / 2 - player.top;
+        player.top = gameHeight / 2;
+
+        const spaceObjects = document.getElementsByClassName('space-object');
+        for (let i = 0; i < spaceObjects.length; i++) {
+            const currentTop = parseFloat(spaceObjects[i].style.top);
+            spaceObjects[i].style.top = (currentTop + diff * 0.5) + 'px';
+            if (currentTop > gameHeight) {
+                spaceObjects[i].remove();
+            }
+        }
+
+        for (let i = 0; i < platforms.length; i++) {
+            platforms[i].top += diff;
+            const platformElements = document.getElementsByClassName('platform');
+            if (i < platformElements.length) {
+                platformElements[i].style.top = platforms[i].top + 'px';
+            }
+        }
+        
+        for (let i = 0; i < stars.length; i++) {
+            if (!stars[i].collected) {
+                if (stars[i].platformIndex >= 0 && stars[i].platformIndex < platforms.length) {
+                    const platform = platforms[stars[i].platformIndex];
+                    stars[i].top = platform.top - 55;
+                    stars[i].left = platform.left + platform.width / 2 - 24;
+                } else {
+                    stars[i].top += diff;
+                }
+                const starElement = document.getElementById('star-' + i);
+                if (starElement) {
+                    starElement.style.top = stars[i].top + 'px';
+                    starElement.style.left = stars[i].left + 'px';
+                }
+            }
+        }
+
+        for (let i = 0; i < clouds.length; i++) {
+            clouds[i].top += diff;
+            const cloudElement = document.getElementById('cloud-' + i);
+            if (cloudElement) {
+                cloudElement.style.top = clouds[i].top + 'px';
+            }
+        }
+
+        const introBackground = document.getElementById('intro-background');
+        if (introBackground.style.display === 'block') {
+            const currentBackgroundTop = parseFloat(introBackground.style.top) || 0;
+            const newBackgroundTop = currentBackgroundTop + diff;
+            introBackground.style.top = newBackgroundTop + 'px';
+
+            if (newBackgroundTop >= gameHeight) {
+                introBackground.style.display = 'none';
+                console.log('Intro background скрыт, так как полностью ушёл за пределы экрана');
+            }
+        }
+
+        if (platforms.length < 7) {
+            let highestPlatform = platforms[0];
+            for (let i = 1; i < platforms.length; i++) {
+                if (platforms[i].top < highestPlatform.top) {
+                    highestPlatform = platforms[i];
+                }
+            }
+            const newPlatformY = highestPlatform.top - Math.random() * 30 - 120;
+            const platformsAtSameHeight = platforms.filter(p => Math.abs(p.top - newPlatformY) < 15);
+            const hasMovingPlatformAtHeight = platformsAtSameHeight.some(p => p.isMoving);
+            
+            if (!hasMovingPlatformAtHeight) {
+                const shouldBeMoving = Math.random() < 0.25;
+                const newPlatform = generatePlatformAtSpecificY(newPlatformY, {
+                    isMoving: shouldBeMoving,
+                    forceType: shouldBeMoving ? "moving" : "static"
+                });
+                if (!shouldBeMoving && Math.random() < 0.3) {
+                    generatePlatformAtSpecificY(newPlatformY, {
+                        isMoving: false,
+                        forceType: "static",
+                        existingLeft: newPlatform.left,
+                        existingWidth: newPlatform.width
+                    });
+                }
+            }
+        }
+        
+        let i = 0;
+        while (i < platforms.length) {
+            if (platforms[i].top > gameHeight) {
+                const platformElements = document.getElementsByClassName('platform');
+                if (i < platformElements.length) {
+                    platformElements[i].parentNode.removeChild(platformElements[i]);
+                }
+                for (let j = 0; j < stars.length; j++) {
+                    if (stars[j].platformIndex === i) {
+                        if (!stars[j].collected) {
+                            const starElement = document.getElementById('star-' + j);
+                            if (starElement) {
+                                starElement.remove();
+                            }
+                            stars[j].collected = true;
+                        }
+                    } else if (stars[j].platformIndex > i) {
+                        stars[j].platformIndex--;
+                    }
+                }
+                platforms.splice(i, 1);
+            } else {
+                i++;
+            }
+        }
+        
+        i = 0;
+        while (i < stars.length) {
+            if (stars[i].top > gameHeight || stars[i].collected) {
+                if (!stars[i].collected) {
+                    const starElement = document.getElementById('star-' + i);
+                    if (starElement) {
+                        starElement.remove();
+                    }
+                }
+                stars.splice(i, 1);
+                for (let j = i; j < stars.length; j++) {
+                    const starElement = document.getElementById('star-' + (j + 1));
+                    if (starElement) {
+                        starElement.id = 'star-' + j;
+                    }
+                }
+            } else {
+                i++;
+            }
+        }
+
+        i = 0;
+        while (i < clouds.length) {
+            if (clouds[i].top > gameHeight) {
+                const cloudElement = document.getElementById('cloud-' + i);
+                if (cloudElement) {
+                    cloudElement.remove();
+                }
+                clouds.splice(i, 1);
+                for (let j = i; j < clouds.length; j++) {
+                    const nextCloudElement = document.getElementById('cloud-' + (j + 1));
+                    if (nextCloudElement) {
+                        nextCloudElement.id = 'cloud-' + j;
+                    }
+                }
+            } else {
+                i++;
+            }
+        }
+    }
+    
+    playerElement.style.left = player.left + 'px';
+    playerElement.style.top = player.top + 'px';
+    
+    animationFrameId = requestAnimationFrame(gameLoop);
+}
+
+function gameOver() {
+    stopGameLoop();
+    
+    playSound(fallSound);
+    pauseBackgroundMusic();
+
+    gameRunning = false;
+    gamePaused = false;
+    
+    const introBackground = document.getElementById('intro-background');
+    introBackground.style.display = 'block';
+    
+    gameOverElement.style.display = 'flex';
+    gameOverButtonsElement.style.display = 'flex';
+    gameOverTextElement.textContent = 'Game Over';
+    gameOverScoreElement.textContent = `Score: ${score}`;
+    
+    if (score > highScore) {
+        highScore = score;
+    }
+    
+    leaderboard.push({
+        nickname: nickname,
+        score: score
+    });
+    
+    leaderboard.sort((a, b) => b.score - a.score);
+    
+    if (leaderboard.length > 10) {
+        leaderboard = leaderboard.slice(0, 10);
+    }
+    
+    localStorage.setItem('crabJumpLeaderboard', JSON.stringify(leaderboard));
+}
+init();
+    </script>
+    
+</body>
+</html>
